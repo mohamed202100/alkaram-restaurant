@@ -149,6 +149,10 @@
                 },
                 success: function (response) {
                     window.location.reload();
+                },
+                error: function (xhr) {
+                    alert('حدث خطأ أثناء الحذف. حاول مرة أخرى.');
+                    console.log(xhr.responseText);
                 }
             });
         }

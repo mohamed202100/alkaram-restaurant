@@ -53,7 +53,7 @@ class CartController extends Controller
         return response()->json(['success' => false], 404);
     }
 
-    public function destroy(Request $request)
+    public function remove(Request $request)
     {
         $request->validate([
             'id' => 'required|exists:items,id'

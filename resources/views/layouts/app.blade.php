@@ -47,7 +47,6 @@
                         </form>
                     </li>
                 @else
-                    <li><a href="{{ route('login') }}">دخول</a></li>
                     <li><a href="{{ route('register') }}">تسجيل</a></li>
                 @endauth
                 
