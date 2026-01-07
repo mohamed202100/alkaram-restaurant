@@ -39,6 +39,7 @@
                         </td>
                         <td>
                             <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i> التفاصيل</a>
+                            <a href="{{ route('admin.orders.print', $order->id) }}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="fas fa-print"></i> طباعة</a>
                         </td>
                     </tr>
                     @empty

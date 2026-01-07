@@ -27,6 +27,12 @@ class OrderController extends Controller
         return view('admin.orders.show', compact('order'));
     }
 
+    public function print(Order $order)
+    {
+        $order->load('items.item');
+        return view('admin.orders.invoice', compact('order'));
+    }
+
     public function update(Request $request, Order $order)
     {
         $request->validate([

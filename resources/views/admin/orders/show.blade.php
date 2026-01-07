@@ -3,7 +3,10 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2> تفاصيل الطلب #{{ $order->id }}</h2>
-    <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-right me-2"></i> عودة للقائمة</a>
+    <div>
+        <a href="{{ route('admin.orders.print', $order->id) }}" target="_blank" class="btn btn-primary me-2"><i class="fas fa-print me-2"></i> طباعة الفاتورة</a>
+        <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-right me-2"></i> عودة للقائمة</a>
+    </div>
 </div>
 
 <div class="row">
