@@ -14,12 +14,28 @@
 <!-- Menu Sections -->
 <section class="section-padding">
     <div class="container">
-        <!-- Category Filter (Optional enhancement) -->
+        <!-- Search Box -->
+        <div class="search-container mb-5 text-center">
+            <div class="search-box mx-auto" style="max-width: 600px; position: relative;">
+                <input type="text" id="menu-search" class="form-control" placeholder="ابحث عن وجبتك المفضلة..." 
+                    style="border-radius: 50px; padding: 0.8rem 1.5rem 0.8rem 3.5rem; border: 2px solid var(--primary-color); font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <i class="fas fa-search search-icon" style="position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%); color: var(--primary-color); font-size: 1.2rem;"></i>
+            </div>
+        </div>
+
+        <!-- Category Filter -->
         <div class="menu-filter text-center mb-5">
             <button class="filter-btn active" data-filter="all">الكل</button>
             @foreach($categories as $category)
                 <button class="filter-btn" data-filter=".cat-{{ $category->id }}">{{ $category->name }}</button>
             @endforeach
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="text-center py-5" style="display: none;">
+            <i class="fas fa-search mb-3" style="font-size: 3rem; color: #ddd;"></i>
+            <h4 class="text-muted">عذراً، لم نجد نتائج تطابق بحثك</h4>
+            <p class="text-muted">جرب البحث عن كلمات أخرى</p>
         </div>
 
         @foreach($categories as $category)
@@ -62,25 +78,62 @@
 
 @push('scripts')
 <script>
-    // Simple filter script
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+    const searchInput = document.getElementById('menu-search');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const sections = document.querySelectorAll('.category-section');
+    const noResults = document.getElementById('no-results');
+    
+    function filterMenu() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const activeBtn = document.querySelector('.filter-btn.active');
+        const activeFilter = activeBtn ? activeBtn.dataset.filter : 'all';
+        let anyVisible = false;
+
+        sections.forEach(sec => {
+            let sectionHasVisibleItems = false;
+            const categoryMatch = activeFilter === 'all' || sec.classList.contains(activeFilter.substring(1));
             
-            const filter = btn.dataset.filter;
-            const sections = document.querySelectorAll('.category-section');
-            
-            sections.forEach(sec => {
-                if (filter === 'all' || sec.classList.contains(filter.substring(1))) {
-                    sec.style.display = 'block';
+            const cards = sec.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                const nameText = card.querySelector('h3').textContent.toLowerCase();
+                const descText = card.querySelector('p').textContent.toLowerCase();
+                const textMatch = nameText.includes(searchTerm) || descText.includes(searchTerm);
+
+                if (categoryMatch && textMatch) {
+                    card.style.display = 'block';
+                    sectionHasVisibleItems = true;
+                    anyVisible = true;
                 } else {
-                    sec.style.display = 'none';
+                    card.style.display = 'none';
                 }
             });
+
+            if (sectionHasVisibleItems) {
+                sec.style.display = 'block';
+            } else {
+                sec.style.display = 'none';
+            }
+        });
+
+        // Show/hide no results message
+        if (anyVisible) {
+            noResults.style.display = 'none';
+        } else {
+            noResults.style.display = 'block';
+        }
+    }
+
+    // Category filter click handler
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterMenu();
         });
     });
+
+    // Search input handler
+    searchInput.addEventListener('input', filterMenu);
 </script>
 <style>
     .filter-btn {
