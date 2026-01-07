@@ -14,7 +14,7 @@ class StoreReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:3|max:255',
             'phone' => ['required', 'regex:/^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/'],
             'reservation_date' => 'required|date|after_or_equal:today',
             'reservation_time' => 'required',
@@ -27,6 +27,7 @@ class StoreReservationRequest extends FormRequest
     {
         return [
             'name.required' => 'الاسم مطلوب.',
+            'name.min' => 'الاسم لا يجب أن يقل عن 3 حرف.',
             'name.max' => 'الاسم لا يجب أن يتجاوز 255 حرف.',
             'phone.required' => 'رقم الجوال مطلوب.',
             'phone.regex' => 'رقم الجوال غير صحيح. يجب أن يكون رقماً سعودياً صالحاً (مثال: 05XXXXXXXX).',

@@ -62,32 +62,51 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">الاسم</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="phone" class="form-label">رقم الجوال</label>
-                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                <input type="tel" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}" required>
+                                @error('phone')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="reservation_date" class="form-label">التاريخ</label>
-                                <input type="date" class="form-control" id="reservation_date" name="reservation_date" required>
+                                <input type="date" class="form-control @error('reservation_date') is-invalid @enderror" id="reservation_date" name="reservation_date" value="{{ old('reservation_date') }}" required>
+                                @error('reservation_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="reservation_time" class="form-label">الوقت</label>
-                                <input type="time" class="form-control" id="reservation_time" name="reservation_time" required>
+                                <input type="time" class="form-control @error('reservation_time') is-invalid @enderror" id="reservation_time" name="reservation_time" value="{{ old('reservation_time') }}" required>
+                                @error('reservation_time')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="guests" class="form-label">عدد الضيوف</label>
-                                <input type="number" class="form-control" id="guests" name="guests" min="1" required>
+                                <input type="number" class="form-control @error('guests') is-invalid @enderror" id="guests" name="guests" min="1" value="{{ old('guests') }}" required>
+                                @error('guests')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-12 mb-3">
                                 <label for="notes" class="form-label">ملاحظات إضافية</label>
-                                <textarea class="form-control" id="notes" name="notes" rows="4"></textarea>
+                                <textarea class="form-control @error('notes') is-invalid @enderror" id="notes" name="notes" rows="4">{{ old('notes') }}</textarea>
+                                @error('notes')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary w-100">تأكيد الحجز</button>
                             </div>
                         </div>
+                        
                     </form>
                 </div>
             </div>
