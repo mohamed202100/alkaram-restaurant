@@ -113,4 +113,25 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'حدث خطأ أثناء إرسال الطلب: ' . $e->getMessage());
         }
     }
+
+    public function checkCustomer(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|string'
+        ]);
+
+        $order = Order::where('customer_phone', $request->phone)
+            ->latest()
+            ->first();
+
+        if ($order) {
+            return response()->json([
+                'success' => true,
+                'customer_name' => $order->customer_name,
+                'address' => $order->address
+            ]);
+        }
+
+        return response()->json(['success' => false]);
+    }
 }

@@ -24,6 +24,7 @@ Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::get('/checkout/check-customer', [CartController::class, 'checkCustomer'])->name('checkout.checkCustomer');
 
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
 

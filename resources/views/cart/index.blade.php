@@ -68,14 +68,14 @@
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label">الاسم <span class="text-danger">*</span></label>
-                                <input type="text" name="customer_name" class="form-control @error('customer_name') is-invalid @enderror" value="{{ old('customer_name') }}" maxlength="255" required>
+                                <input type="text" name="customer_name" id="customer_name_input" class="form-control @error('customer_name') is-invalid @enderror" value="{{ old('customer_name') }}" maxlength="255" required>
                                 @error('customer_name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">رقم الجوال <span class="text-danger">*</span></label>
-                                <input type="tel" name="customer_phone" class="form-control @error('customer_phone') is-invalid @enderror" value="{{ old('customer_phone') }}" placeholder="05XXXXXXXX" pattern="^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$" required>
+                                <input type="tel" name="customer_phone" id="customer_phone_input" class="form-control @error('customer_phone') is-invalid @enderror" value="{{ old('customer_phone') }}" placeholder="05XXXXXXXX" pattern="^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$" required>
                                 @error('customer_phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -83,7 +83,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">العنوان <span class="text-danger">*</span></label>
-                                <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" value="{{ old('address') }}" placeholder="الحي، الشارع، البناية..." maxlength="500" required>
+                                <input type="text" name="address" id="customer_address_input" class="form-control @error('address') is-invalid @enderror" value="{{ old('address') }}" placeholder="الحي، الشارع، البناية..." maxlength="500" required>
                                 @error('address')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -153,6 +153,27 @@
                 error: function (xhr) {
                     alert('حدث خطأ أثناء الحذف. حاول مرة أخرى.');
                     console.log(xhr.responseText);
+                }
+            });
+        }
+    });
+
+    $("#customer_phone_input").on('change blur', function() {
+        var phone = $(this).val();
+        if (phone.length >= 9) { // Simple check to avoid too many requests
+            $.ajax({
+                url: '{{ route('checkout.checkCustomer') }}',
+                method: "GET",
+                data: { phone: phone },
+                success: function (response) {
+                    if (response.success) {
+                        if (!$("#customer_name_input").val()) {
+                            $("#customer_name_input").val(response.customer_name);
+                        }
+                        if (!$("#customer_address_input").val()) {
+                            $("#customer_address_input").val(response.address);
+                        }
+                    }
                 }
             });
         }

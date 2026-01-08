@@ -16,7 +16,7 @@ class CheckoutRequest extends FormRequest
         return [
             'customer_name' => 'required|string|min:3|max:255|regex:/^[\pL\s]+$/u',
             'customer_phone' => ['required', 'regex:/^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/'],
-            'address' => 'required|string|min:10|max:500',
+            'address' => 'required|string|min:8|max:500',
             'notes' => 'nullable|string|max:1000'
         ];
     }
